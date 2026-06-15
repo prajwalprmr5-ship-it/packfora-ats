@@ -8,25 +8,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-# Public Supabase project credentials (publishable anon key — safe to embed).
-# These are used as defaults so the app works out-of-the-box on Render/Streamlit Cloud
-# without needing to configure environment variables. Override via env vars if needed.
-DEFAULT_SUPABASE_URL = "https://lejtobtwavopmfgoinoh.supabase.co"
-DEFAULT_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlanRvYnR3YXZvcG1mZ29pbm9oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwMTkzODQsImV4cCI6MjA5NjU5NTM4NH0.BtovLf0UxYranvxGhhEWH3h0_5ipexiloPdX5ZPO_v0"
-
-
 @st.cache_resource
 def get_supabase() -> Client:
-    url = (
-        os.getenv("SUPABASE_URL")
-        or os.getenv("VITE_SUPABASE_URL")
-        or DEFAULT_SUPABASE_URL
-    )
+    url = os.getenv("SUPABASE_URL") or os.getenv("VITE_SUPABASE_URL")
     key = (
         os.getenv("SUPABASE_SERVICE_ROLE_KEY")
         or os.getenv("SUPABASE_PUBLISHABLE_KEY")
         or os.getenv("VITE_SUPABASE_PUBLISHABLE_KEY")
-        or DEFAULT_SUPABASE_KEY
     )
     if not url or not key:
         raise RuntimeError(
